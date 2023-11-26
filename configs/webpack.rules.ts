@@ -1,7 +1,5 @@
 import type { ModuleOptions } from 'webpack';
 
-import { isDevelopment } from './webpack.env';
-
 export const rules: Required<ModuleOptions>['rules'] = [
   // Add support for native node modules
   {
@@ -24,35 +22,10 @@ export const rules: Required<ModuleOptions>['rules'] = [
     test: /\.tsx?$/,
     exclude: /(node_modules|\.webpack)/,
     use: {
-      loader: 'swc-loader',
+      loader: 'esbuild-loader',
       options: {
-        module: {
-          type: 'es6',
-          ignoreDynamic: true,
-        },
-        jsc: {
-          parser: {
-            syntax: 'typescript',
-            tsx: true,
-            dynamicImport: true,
-            decorators: true,
-          },
-          target: 'es2022',
-          loose: false,
-          externalHelpers: true,
-          transform: {
-            legacyDecorator: true,
-            react: {
-              runtime: 'automatic',
-              pragma: 'React.createElement',
-              pragmaFrag: 'React.Fragment',
-              throwIfNamespace: true,
-              development: isDevelopment,
-              useBuiltins: true,
-              refresh: isDevelopment,
-            },
-          },
-        },
+        target: 'es2015',
+        jsx: 'automatic',
       },
     },
   },
